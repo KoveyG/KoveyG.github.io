@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>snake</title>
+</head>
+<body>
+<div class="map"></div>
+<p></p>
+</body>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+
+function Map() {
+    this.width = 100;
+    this.height = 50;
+    this.color ='#ffffff';
+    this.position ='absolute';
+    this.border = '10px solid #61C5FD'
+    this.show = function() {
+        var div = $('.map');
+        div.css( {
+            "backgroundColor":this.color,
+            "width":this.width*10, 
+            "height":this.height*10, 
+            "position":this.position,
+            "border":this.border,
+        });
+        div.addClass(this.class);
+        $('body').append(div);
+    }
+};
+
+function NewFood() {
+    this.width = 1;
+    this.height = 1;
+    this.color = ['green','red','yellow','pink','plum','peru','orange','salmon','gray','gold'];
+    this.position ='absolute';
+    this.x = Math.floor(Math.random()*100);
+    this.y = Math.floor(Math.random()*50);
+    this.num = Math.floor(Math.random()*10);
+
+    this.show = function(i) {
+        this.x = Math.floor(Math.random()*100);
+        this.y = Math.floor(Math.random()*50);
+        this.num = Math.floor(Math.random()*10);
+
+        var div ='<div class="newfood"></div>';
+        $('.map').append(div);
+        $(".newfood").eq(i).css( {
+            "backgroundColor":this.color[this.num],
+            "width":this.width*10, 
+            "height":this.height*10,
+            "position":this.position,
+            "left":this.x*10,
+            "top":this.y*10,
+        });
+    }
+}
+function Snake() {
+    this.width = 1;
+    this.height = 1;
+    this.position ='absolute';
+    this.body = [[70, 25, 'red'], [69, 25, 'yellow'], [68, 25, 'blue']];
+    this.direct='right';
+    this.show = function() {
+        $('.sn').remove();
+        var length = this.body.length;
+        for(var i=0;i<length;i++) {
+            var div ='<div class="sn"></div>';
+            $('.map').append(div);
+            $(".sn").eq(i).css( {
+                "backgroundColor":this.body[i][2],
+                "width":this.width*10, 
+                "height":this.height*10, 
+                "position":this.position, 
+                "left":this.body[i][0]*10,
+                "top":this.body[i][1]*10,
+            });
+        }
+    }
+    this.move = function() {
+        var length = this.body.length;
+        for (var i = length - 1;i > 0;i--) {
+            this.body[i][0] = this.body[i-1][0];
+            this.body[i][1] = this.body[i-1][1];
+        }
+        if (this.direct == 'right') {
+            this.body[0][0] += 1;
+            // console.log(this.body[0][0]);
+        }
+        if (this.direct == 'left') {
+            this.body[0][0] -= 1;
+        }
+        if (this.direct == 'up') {
+            this.body[0][1] -= 1;
+        }
+        if (this.direct == 'down') {
+            this.body[0][1] += 1;
+        }
+        this.show();
+    }
+    this.setDirect = function(code) {
+        switch(code) {
+            case 37:
+                if(this.direct != 'right'){this.direct ='left';}
+            break;
+            case 38:
+                if(this.direct != 'down'){this.direct ='up';}
+            break;
+            case 39:
+                if(this.direct != 'left'){this.direct ='right';}
+            break;
+            case 40:
+                if(this.direct != 'up'){this.direct ='down';}
+            break;
+        }
+    }
+};
+function Snake2() {
+    this.width = 1;
+    this.height = 1;
+    this.position ='absolute';
+    this.body = [[30, 25, 'red'], [29, 25, 'yellow'], [28, 25, 'blue']];
+    this.direct='right';
+    this.show = function() {
+        $('.sn2').remove();
+        var length = this.body.length;
+        for(var i=0;i<length;i++) {
+            var div ='<div class="sn2"></div>';
+            $('.map').append(div);
+            $(".sn2").eq(i).css( {
+                "backgroundColor":this.body[i][2],
+                "width":this.width*10, 
+                "height":this.height*10, 
+                "position":this.position, 
+                "left":this.body[i][0]*10,
+                "top":this.body[i][1]*10,
+            });
+        }
+    }
+    this.move = function() {
+        var length = this.body.length;
+        for (var i = length - 1;i > 0;i--) {
+            this.body[i][0] = this.body[i-1][0];
+            this.body[i][1] = this.body[i-1][1];
+        }
+        if (this.direct == 'right') {
+            this.body[0][0] += 1;
+            // console.log(this.body[0][0]);
+        }
+        if (this.direct == 'left') {
+            this.body[0][0] -= 1;
+        }
+        if (this.direct == 'up') {
+            this.body[0][1] -= 1;
+        }
+        if (this.direct == 'down') {
+            this.body[0][1] += 1;
+        }
+        this.show();
+    }
+    this.setDirect = function(code) {
+        switch(code) {
+            case 65:
+                if(this.direct != 'right'){this.direct ='left';}
+            break;
+            case 87:
+                if(this.direct != 'down'){this.direct ='up';}
+            break;
+            case 68:
+                if(this.direct != 'left'){this.direct ='right';}
+            break;
+            case 83:
+                if(this.direct != 'up'){this.direct ='down';}
+            break;
+        }
+    }
+};
+
+$(function () {
+        var map = new Map(); map.show();
+        var snake = new Snake();snake.show();
+        var snake2 = new Snake2();snake2.show();
+        var newfood = new NewFood();
+        var length = newfood.color.length;
+        var arr =[];
+
+        for(var i=0; i<length;i++){
+            newfood.show(i);
+            var xyc=[newfood.x,newfood.y,newfood.color[newfood.num]];
+            console.log(xyc);
+            arr.push(xyc);
+        }
+
+        var eatfood = function(){
+            var xxx = arr;
+
+            for(var i=0;i<arr.length;i++){
+                if (snake.body[0][0] == arr[i][0] && snake.body[0][1] == arr[i][1]) {
+                    if(snake.body[0][2] == arr[i][2]){
+                        alert("这个不能吃啊！");
+                        break;
+                    }else{
+                        console.log(snake.body);
+                        snake.body.unshift([snake.body[0][0],snake.body[0][1],arr[i][2]]);
+                        arr.splice(i,1);
+                        $('.newfood').eq(i-1).remove();
+                        newfood.show(arr.length-1);
+                        var xyc=[newfood.x,newfood.y,newfood.color[newfood.num]];
+                        arr.push(xyc);
+                    }
+                }
+                if (snake2.body[0][0] == arr[i][0] && snake2.body[0][1] == arr[i][1]) {
+                    if(snake2.body[0][2] == arr[i][2]){
+                        alert("这个不能吃啊！");
+                        break;
+                    }else{
+                        console.log(snake.body);
+                        snake2.body.unshift([snake2.body[0][0],snake2.body[0][1],arr[i][2]]);
+                        arr.splice(i,1);
+                        $('.newfood').eq(i-1).remove();
+                        newfood.show(arr.length-1);
+                        var xyc=[newfood.x,newfood.y,newfood.color[newfood.num]];
+                        arr.push(xyc);
+                    }
+                }
+            }
+        }
+
+        $(window).keydown(function (e) {
+            switch (e.keyCode) {
+                case 32:
+                    beginGame();
+                break;
+            }
+        });
+
+        $(window).keydown(function (event) {
+            var code;
+            if(window.event) {
+                code = window.event.keyCode;
+            }
+            else {
+                code = event.keyCode;
+            }
+            snake.setDirect(code);
+            snake2.setDirect(code);
+        });
+
+        // //开始游戏
+        var beginGame = function () {
+            var timer=setInterval(function() {
+                snake.move();
+                snake2.move();
+                // console.log(snake.body[0][0])
+                if(snake.body[0][1] < 0 || snake.body[0][1] > map.height -1 || snake.body[0][0] < 0 || snake.body[0][0] > map.width -1 ) {
+                    alert("用上下左右那个！你咋死了呢！");
+                    clearInterval(timer);
+                }else if(snake2.body[0][1] < 0 || snake2.body[0][1] > map.height -1 || snake2.body[0][0] < 0 || snake2.body[0][0] > map.width -1 ){
+                    alert("用WASD那个！你咋死了呢!");
+                    clearInterval(timer);
+                }
+                else {
+                    eatfood();
+                }
+            }, 200);
+        }
+})
+
+</script>
+</html>
