@@ -1,2 +1,2 @@
 # github.io
-Kovey's
+双人版贪吃蛇
